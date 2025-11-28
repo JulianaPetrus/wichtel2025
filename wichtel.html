@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wichtel-Auslosung</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dein Wichtel-Ergebnis</h1>
+    <p id="output">Lade Ergebnis …</p>
+    <img id="bild" style="display:none;" />
+  </div>
+
+  <script>
+    // Hier die Token → Name und Name → Bild-Zuordnung hinterlegen.
+
+    const tokenToPerson = {
+      "qb7HJ3": "Lennart",
+      "8df9381ca1": "Daniel",
+      "91kd02": "Madlen",
+      "f33lsX": "Felix",
+      "v0rt12": "Robert",
+      "55denZ": "Deniz",
+      "mmel22": "Melanie",
+      "juli88": "Juliana"
+    };
+
+    const personToWichtel = {
+      "Lennart": "Daniel",
+      "Daniel": "Madlen",
+      "Madlen": "Felix",
+      "Felix": "Robert",
+      "Robert": "Deniz",
+      "Deniz": "Melanie",
+      "Melanie": "Juliana",
+      "Juliana": "Lennart"
+    };
+
+    // Optional: Zu jedem gezogenen Namen ein eigenes Bild.
+    const wichtelBild = {
+      "Daniel": "bilder/daniel.png",
+      "Madlen": "bilder/madlen.png",
+      "Felix": "bilder/felix.png",
+      "Robert": "bilder/robert.png",
+      "Deniz": "bilder/deniz.png",
+      "Melanie": "bilder/melanie.png",
+      "Juliana": "bilder/juliana.png",
+      "Lennart": "bilder/lennart.png"
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+
+    const ausgabe = document.getElementById("output");
+    const bild = document.getElementById("bild");
+
+    if (!token || !tokenToPerson[token]) {
+      ausgabe.textContent = "Ungültiger oder fehlender Link.";
+    } else {
+      const person = tokenToPerson[token];
+      const ziehung = personToWichtel[person];
+      ausgabe.textContent = `Du beschenkst: ${ziehung}`;
+
+      if (wichtelBild[ziehung]) {
+        bild.src = wichtelBild[ziehung];
+        bild.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
